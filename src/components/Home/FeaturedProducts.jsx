@@ -1,5 +1,6 @@
 import React from "react";
 import "./FeaturedProducts.css";
+import ProductCard from "../Products/ProductCard";
 
 const FeaturedProducts = () => {
   return (
