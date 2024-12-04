@@ -1,13 +1,24 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import "./LoginPage.css";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
+const schema = z.object({
+  email: z
+    .string()
+    .email({ message: "Please enter valid email address." })
+    .min(3),
+  password: z
+    .string()
+    .min(8, { message: "Password should be at least 8 characters." }),
+});
 const LoginPage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: zodResolver(schema) });
 
   const onSubmit = (formData) => console.log(formData);
   return (
@@ -16,32 +27,30 @@ const LoginPage = () => {
         <h2>Login Form</h2>
         <div className="form_inputs">
           <div>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="email">Email</label>
             <input
-              type="text"
-              id="name"
+              type="email"
+              id="email"
               className="form_text_input"
-              placeholder="Enter your name"
-              {...register("name", { required: true, minLength: 3 })}
+              placeholder="Enter your email address"
+              {...register("email")}
             />
-            {errors.name?.type === "required" && (
-              <em className="form_error">Please enter your name</em>
-            )}
-            {errors.name?.type === "minLength" && (
-              <em className="form_error">
-                Name should be 3 or more characters
-              </em>
+            {errors.email && (
+              <em className="form_error">{errors.email.message}</em>
             )}
           </div>
           <div>
-            <label htmlFor="phone">Phone Number</label>
+            <label htmlFor="password">Password</label>
             <input
-              type="number"
-              id="phone"
+              type="password"
+              id="password"
               className="form_text_input"
-              placeholder="Enter your phone number"
-              {...register("phone", { valueAsNumber: true })}
+              placeholder="Enter your password"
+              {...register("password")}
             />
+            {errors.password && (
+              <em className="form_error">{errors.password.message}</em>
+            )}
           </div>
           <button type="submit" className="search_button form_submit">
             Submit
