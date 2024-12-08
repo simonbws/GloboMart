@@ -27,6 +27,7 @@ const schema = z
 
 const SignupPage = () => {
   const [profilePic, setProfilePic] = useState(null);
+  const [formError, setFormError] = useState("");
   const {
     register,
     handleSubmit,
@@ -34,7 +35,13 @@ const SignupPage = () => {
   } = useForm({ resolver: zodResolver(schema) });
 
   const onSubmit = async (formData) => {
-    await signup(formData, profilePic);
+    try {
+      await signup(formData, profilePic);
+    } catch (err) {
+      if (err.respnse && err.response.status === 400) {
+        setFormError(err.response.data.message);
+      }
+    }
   };
   return (
     <section className="align_center form_page">
@@ -133,7 +140,7 @@ const SignupPage = () => {
             )}
           </div>
         </div>
-
+        {formError && <em className="form_error">{formError}</em>}
         <button className="search_button form_submit" type="submit">
           Submit
         </button>
