@@ -9,11 +9,26 @@ const useData = (endpoint, customConfig, deps) => {
     () => {
       apiClient
         .get(endpoint, customConfig)
-        .then((res) => setData(res.data))
+        .then((res) => {
+          if (
+            endpoint === "/products" &&
+            data &&
+            data.products &&
+            customConfig.params.page !== 1
+          ) {
+            setData((prev) => ({
+              ...prev,
+              products: [...prev.products, ...res.data.products],
+            }));
+          } else {
+            setData(res.data);
+          }
+        })
         .catch((err) => setError(err.message));
     },
     deps ? deps : []
   );
+
   return { data, error };
 };
 
