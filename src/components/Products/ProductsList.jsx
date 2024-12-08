@@ -3,19 +3,26 @@ import "./ProductsList.css";
 import ProductCard from "./ProductCard";
 import useData from "../../hooks/useData";
 import { useSearchParams } from "react-router-dom";
+import Pagination from "../Common/Pagination";
 
 const ProductsList = () => {
   const [search, setSearch] = useSearchParams();
   const category = search.get("category");
+  const page = search.get("page");
   const { data, error } = useData(
     "/products",
     {
       params: {
         category,
+        page,
       },
     },
-    [category]
+    [category, page]
   );
+  const handlePageChange = (page) => {
+    const currentParams = Object.fromEntries([...search]);
+    setSearch({ ...currentParams, page: page });
+  };
   console.log("Data", data);
   return (
     <section className="products_list_section">
@@ -46,6 +53,14 @@ const ProductsList = () => {
             />
           ))}
       </div>
+      {data && (
+        <Pagination
+          totalPosts={data.totalProducts}
+          postsPerPage={8}
+          onClick={handlePageChange}
+          currentPage={page}
+        />
+      )}
     </section>
   );
 };
