@@ -28,14 +28,10 @@ const ProductsList = () => {
       </header>
 
       <div className="products_list">
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+        {error && <em className="form_error">{error}</em>}
+        {products.map((product) => (
+          <ProductCard key={product._id} />
+        ))}
       </div>
     </section>
   );
