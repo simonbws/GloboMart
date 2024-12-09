@@ -24,8 +24,7 @@ const LoginPage = () => {
 
   const onSubmit = async (formData) => {
     try {
-      const { data } = await login(formData);
-      localStorage.setItem("token", data.token);
+      await login(formData);
       window.location = "/";
     } catch (err) {
       if (err.respnse && err.response.status === 400) {

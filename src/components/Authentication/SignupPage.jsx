@@ -36,8 +36,7 @@ const SignupPage = () => {
 
   const onSubmit = async (formData) => {
     try {
-      const { data } = await signup(formData, profilePic);
-      localStorage.setItem("token", data.token);
+      await signup(formData, profilePic);
       window.location = "/";
     } catch (err) {
       if (err.respnse && err.response.status === 400) {
