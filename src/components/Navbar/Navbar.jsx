@@ -28,13 +28,21 @@ const Navbar = () => {
       <div className="align_center navbar_links">
         <LinkWithIcon title="Home" link="/" emoji={rocket} />
         <LinkWithIcon title="Products" link="/products" emoji={star} />
-        <LinkWithIcon title="LogIn" link="/login" emoji={idButton} />
-        <LinkWithIcon title="SignUp" link="/signup" emoji={memo} />
-        <LinkWithIcon title="My Orders" link="myorders" emoji={order} />
-        <LinkWithIcon title="Logout" link="/logout" emoji={lock} />
-        <NavLink to="/cart" className="align_center">
-          Cart <p className="align_center cart_counts">0</p>
-        </NavLink>
+        {!user && (
+          <>
+            <LinkWithIcon title="LogIn" link="/login" emoji={idButton} />
+            <LinkWithIcon title="SignUp" link="/signup" emoji={memo} />
+          </>
+        )}
+        {user && (
+          <>
+            <LinkWithIcon title="My Orders" link="myorders" emoji={order} />
+            <LinkWithIcon title="Logout" link="/logout" emoji={lock} />
+            <NavLink to="/cart" className="align_center">
+              Cart <p className="align_center cart_counts">0</p>
+            </NavLink>
+          </>
+        )}
       </div>
     </nav>
   );
