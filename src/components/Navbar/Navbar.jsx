@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Navbar.css";
 import rocket from "../../assets/rocket.png";
 import star from "../../assets/glowing-star.png";
@@ -8,8 +8,10 @@ import order from "../../assets/package.png";
 import lock from "../../assets/locked.png";
 import LinkWithIcon from "./LinkWithIcon";
 import { NavLink } from "react-router-dom";
+import UserContext from "../../contexts/UserContext";
 
 const Navbar = ({ cartCount }) => {
+  const user = useContext(UserContext);
   return (
     <nav className="align_center navbar">
       <div className="align_center">
