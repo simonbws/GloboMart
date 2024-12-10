@@ -1,6 +1,5 @@
 import apiClient from "../utils/api-client";
 import jwtDecode from "jwt-decode";
-
 const tokenName = "token";
 
 export async function signup(user, profile) {
@@ -31,4 +30,7 @@ export function getUser() {
   } catch (error) {
     return null;
   }
+}
+export function getJwt() {
+  return localStorage.getItem(tokenName);
 }

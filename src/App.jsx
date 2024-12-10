@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import Routing from "./components/Routing/Routing";
-import { getUser } from "./services/userServices";
+import { getJwt, getUser } from "./services/userServices";
+import setAuthToken from "./utils/setAuthToken";
+
+setAuthToken(getJwt);
 
 const App = () => {
   const [user, setUser] = useState(null);
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     try {
@@ -18,11 +22,23 @@ const App = () => {
       }
     } catch (error) {}
   }, []);
+
+  const addToCart = (product, quantity) => {
+    const updatedCart = [...cart];
+    updatedCart.findIndex((item) => item.product._id === product._id);
+
+    if (productIndex === -1) {
+      updatedCart.push({ product: product, quantity: quantity });
+    } else {
+      updatedCart[productIndex].quantity += quantity;
+    }
+    setCart(updatedCart);
+  };
   return (
     <div className="app">
-      <Navbar user={user} />
+      <Navbar user={user} cartCount={cart.length} />
       <main>
-        <Routing />
+        <Routing addToCart={addToCart} />
       </main>
     </div>
   );
