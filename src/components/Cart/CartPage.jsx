@@ -5,10 +5,12 @@ import "./CartPage.css";
 import remove from "../../assets/remove.png";
 import Table from "../Common/Table";
 import QuantityInput from "../SingleProduct/QuantityInput";
+import CartContext from "../../contexts/CartContext";
 
-const CartPage = ({ cart }) => {
+const CartPage = () => {
   const [subTotal, setSubtotal] = useState(0);
   const user = useContext(UserContext);
+  const { cart, addToCart } = useContext(CartContext);
 
   useEffect(() => {
     let total = 0;

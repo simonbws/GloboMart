@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import "./SingleProductPage.css";
 import QuantityInput from "./QuantityInput";
 import { useParams } from "react-router-dom";
 import useData from "../../hooks/useData";
+import CartContext from "../../contexts/CartContext";
 
-const SingleProductPage = ({ addToCart }) => {
+const SingleProductPage = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useContext(CartContext);
   const { id } = useParams();
   const { data: product, error } = useData(`/products/${id}`);
   return (
