@@ -3,7 +3,8 @@ import { useForm } from "react-hook-form";
 import "./LoginPage.css";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { login } from "../../services/userServices";
+import { getUser, login } from "../../services/userServices";
+import { useLocation } from "react-router-dom";
 
 const schema = z.object({
   email: z
@@ -16,6 +17,8 @@ const schema = z.object({
 });
 const LoginPage = () => {
   const [formError, setFormError] = useState("");
+  const location = useLocation();
+
   const {
     register,
     handleSubmit,
@@ -25,13 +28,18 @@ const LoginPage = () => {
   const onSubmit = async (formData) => {
     try {
       await login(formData);
-      window.location = "/";
+      const { state } = location;
+      window.location = state ? state.form : "/";
     } catch (err) {
       if (err.respnse && err.response.status === 400) {
         setFormError(err.response.data.message);
       }
     }
   };
+
+  if (getUser()) {
+    return <Navigate to="/" />;
+  }
   return (
     <section className="align_center form_page">
       <form className="authentication_form" onSubmit={handleSubmit(onSubmit)}>

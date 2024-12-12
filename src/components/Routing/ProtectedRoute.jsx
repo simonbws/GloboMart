@@ -1,7 +1,12 @@
 import React from "react";
 
 const ProtectedRoute = () => {
-  return getUser() ? <Outlet /> : <Navigate to="/login" />;
+  const location = useLocation();
+  return getUser() ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/login" state={{ from: location.pathname }} />
+  );
 };
 
 export default ProtectedRoute;
