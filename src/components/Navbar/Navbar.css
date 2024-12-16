@@ -55,7 +55,8 @@
   font-size: 18px;
   cursor: pointer;
 }
-.search_suggestion_link:hover {
+.search_suggestion_link:hover,
+.search_suggestion_link.active {
   background-color: #e3e3e3;
 }
 .navbar_links {
