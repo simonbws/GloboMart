@@ -9,21 +9,24 @@ const ProductsList = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useSearchParams();
   const category = search.get("category");
+  const searchQuery = search.get("search");
+
   const { data, error } = useData(
     "/products",
     {
       params: {
+        search: searchQuery,
         category,
         perPage: 10,
         page,
       },
     },
-    [category, page]
+    [searchQuery, category, page]
   );
 
   useEffect(() => {
     setPage(1);
-  }, [category]);
+  }, [searchQuery, category]);
 
   const handlePageChange = (page) => {
     const currentParams = Object.fromEntries([...search]);
@@ -62,7 +65,9 @@ const ProductsList = () => {
       <div className="products_list">
         {error && <em className="form_error">{error}</em>}
         {data?.products &&
-          data.products.map((product) => <ProductCard product={product} />)}
+          data.products.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
       </div>
       {/* {data && (
         <Pagination

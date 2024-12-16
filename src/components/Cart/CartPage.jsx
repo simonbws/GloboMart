@@ -7,9 +7,10 @@ import Table from "../Common/Table";
 import QuantityInput from "../SingleProduct/QuantityInput";
 import CartContext from "../../contexts/CartContext";
 import { checkoutAPI } from "../../services/orderServices";
+import { toast } from "react-toastify";
 
 const CartPage = () => {
-  const [subTotal, setSubtotal] = useState(0);
+  const [subTotal, setSubTotal] = useState(0);
   const user = useContext(UserContext);
   const { cart, removeFromCart, updateCart, setCart } = useContext(CartContext);
 
@@ -18,7 +19,7 @@ const CartPage = () => {
     cart.forEach((item) => {
       total += item.product.price * item.quantity;
     });
-    setSubtotal(total);
+    setSubTotal(total);
   }, [cart]);
 
   const checkout = () => {
@@ -41,8 +42,8 @@ const CartPage = () => {
           alt="user profile"
         />
         <div>
-          <p className="user_name">Name: {userObj?.name}</p>
-          <p className="user_email">Email: {userObj?.email}</p>
+          <p className="user_name">Name: {user?.name}</p>
+          <p className="user_email">Email: {user?.email}</p>
         </div>
       </div>
 

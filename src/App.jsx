@@ -16,7 +16,8 @@ import {
 } from "./services/cartServices";
 import "react-toastify/dist/ReactToastify.css";
 import CartContext from "./contexts/CartContext";
-setAuthToken(getJwt);
+
+setAuthToken(getJwt());
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -36,7 +37,9 @@ const App = () => {
 
   const addToCart = (product, quantity) => {
     const updatedCart = [...cart];
-    updatedCart.findIndex((item) => item.product._id === product._id);
+    const productIndex = updatedCart.findIndex(
+      (item) => item.product._id === product._id
+    );
 
     if (productIndex === -1) {
       updatedCart.push({ product: product, quantity: quantity });
@@ -74,6 +77,7 @@ const App = () => {
     if (type === "increase") {
       updatedCart[productIndex].quantity += 1;
       setCart(updatedCart);
+
       increaseProductAPI(id).catch((err) => {
         toast.error("Something went wrong!");
         setCart(oldCart);
@@ -95,7 +99,7 @@ const App = () => {
         setCart(res.data);
       })
       .catch((err) => {
-        toast.errr("Something went wrong!");
+        toast.error("Something went wrong!");
       });
   };
 
